@@ -1,15 +1,19 @@
-<h1>{{stock.companyName}} ({{ stock.symbol }})</h1>
-<br/><br/>
-<strong>Latest price: </strong>{{ stock.latestPrice}}<br/>
-<strong>Previous close: </strong>{{ stock.previousClose }}<br/>
-<strong>% change today: </strong>{{ stock.changePercent }}%<br/>
-<strong>Market cap: </strong>{{ stock.marketCap }}<br/>
-<strong>YTD change: </strong>{{ stock.ytdChange }}%<br/>
-<strong>52-week high: </strong>{{ stock.week52High }}<br/>
-<strong>52-week low: </strong>{{ stock.week52Low }}<br/>
+<div class="card" style="background: rgba(233, 243, 247, 0.966)">
+    <div class="card-body">
+        <h5 class="card-title" style="font-size: 40px;">{{stock.companyName}} ({{ stock.symbol }})</h5>
+        <p class="card-text">
+            <strong>Latest price: </strong>{{ stock.latestPrice}}<br />
+            <strong>Previous close: </strong>{{ stock.previousClose }}<br />
+            <strong>% change today: </strong>{{ stock.changePercent }}%<br />
+            <strong>Market cap: </strong>{{ stock.marketCap }}<br />
+            <strong>YTD change: </strong>{{ stock.ytdChange }}%<br />
+            <strong>52-week high: </strong>{{ stock.week52High }}<br />
+            <strong>52-week low: </strong>{{ stock.week52Low }}<br />
+        </p>
+    </div>
+</div>
 
-
-<br/>
+<br />
 <!--
 {{#each stock}}
     {{@key}} | {{this}}<br/>
