@@ -5,14 +5,17 @@ const app = express();
 const exphbs = require('express-handlebars');
 const path = require('path');
 const request = require('request');
-const { finished } = require('stream');
+const bodyParser = require('body-parser')
 
 const PORT = process.env.PORT || 5000;
 
+// use body parser middleware
+app.use(bodyParser.urlencoded({extended: false}));
+
 // API key pk_6b35f7e7fb0842ada1248b416042ae8f
 // create call API function
-function call_api(finishedAPI) {
-    request('https://cloud.iexapis.com/stable/stock/fb/quote?token=pk_6b35f7e7fb0842ada1248b416042ae8f', { json: true }, (err, res, body) => {
+function call_api(finishedAPI, ticker) {
+    request('https://cloud.iexapis.com/stable/stock/' + ticker + '/quote?token=pk_6b35f7e7fb0842ada1248b416042ae8f', { json: true }, (err, res, body) => {
     if (err) {return console.log(err);}
     if (res.statusCode === 200){
         finishedAPI(body);
@@ -25,15 +28,25 @@ function call_api(finishedAPI) {
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
-const otherstuff = "This is other stuff..."
+const otherstuff = "This is other stuff...";
 
-// Set handlebar routes
+// Set handlebar index GET route
 app.get('/', function (req, res) {
     call_api(function(doneAPI){
         res.render('home', {
             stock: doneAPI
         });
     });
+});
+
+// Set handlebar index POST route
+app.post('/', function (req, res) {
+    call_api(function(doneAPI){
+        //ticker_symbol = req.body.stock_ticker;
+        res.render('home', {
+            stock: doneAPI,
+        });
+    }, req.body.stock_ticker);
 });
 
 app.get('/about.html', function (req, res) {
