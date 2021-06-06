@@ -5,16 +5,17 @@ const app = express();
 const exphbs = require('express-handlebars');
 const path = require('path');
 const request = require('request');
+const { finished } = require('stream');
 
 const PORT = process.env.PORT || 5000;
 
 // API key pk_6b35f7e7fb0842ada1248b416042ae8f
 // create call API function
-function call_api() {
+function call_api(finishedAPI) {
     request('https://cloud.iexapis.com/stable/stock/fb/quote?token=pk_6b35f7e7fb0842ada1248b416042ae8f', { json: true }, (err, res, body) => {
     if (err) {return console.log(err);}
     if (res.statusCode === 200){
-        return body
+        finishedAPI(body);
     };
 });
 }
@@ -28,10 +29,10 @@ const otherstuff = "This is other stuff..."
 
 // Set handlebar routes
 app.get('/', function (req, res) {
-    const api = call_api();
-    console.log(api);
-    res.render('home', {
-        stock: api
+    call_api(function(doneAPI){
+        res.render('home', {
+            stock: doneAPI
+        });
     });
 });
 
