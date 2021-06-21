@@ -8,29 +8,19 @@ const bodyParser = require('body-parser')
 const path = require('path');
 const fs = require('fs');
 
-// First attempt
+// Generate random ticker symbol
 
-// const stocksFileContents = fs.readFileSync(path.join(__dirname, 'stocks.txt')).toString();
-// const stocks = [];
+const stocksFileContents = fs.readFileSync(path.join(__dirname, 'stocks.txt')).toString();
+const stocks = [];
 
-// stocksFileContents.split('\n').forEach((line) => {
-//     stocks.push({
-//         'tickerSymbol': line
-//     })
-// });
+stocksFileContents.split('\n').forEach((line) => {
+    stocks.push({
+        'tickerSymbol': line
+    })
+});
 
-// const randomStock = Math.floor(Math.random() * stocks.length);
-
-
-// Second attempt
-// This loads your file from somewhere
-// fs.readFile('stocks.txt', 'utf8', function(err, data){
-//     if(err) throw err;
-//     var lines = data.split('\n');
-//     var rand = [Math.floor(Math.random()*lines.length)];
-//     var line = lines[rand]
-// });
-
+const randomStock = Math.floor(Math.random() * stocks.length);
+var ticker = stocks[randomStock].tickerSymbol
 
 const PORT = process.env.PORT || 5000;
 
@@ -61,7 +51,7 @@ app.get('/', function (req, res) {
         res.render('home', {
             stock: doneAPI
         });
-    }, line);
+    }, ticker);
 });
 
 // Set handlebar index POST route
